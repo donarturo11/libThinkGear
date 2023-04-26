@@ -1,0 +1,8 @@
+project(thinkgear_parse_test VERSION 1.0.0 LANGUAGES CXX C)
+add_executable(${PROJECT_NAME} main.c BasicListener.c)
+if (BUILD_STATIC)
+    target_link_libraries(${PROJECT_NAME} PUBLIC thinkgear)
+else()
+    target_link_libraries(${PROJECT_NAME} PUBLIC thinkgear_SHARED)
+endif()
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
