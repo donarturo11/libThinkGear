@@ -1,5 +1,6 @@
 
 #include "ThinkGearReceiver.h"
+#include "ThinkGearMonitor.h"
 #include <boost/asio.hpp>
 #include <iostream>
 #define BUFSIZE 512
@@ -7,6 +8,7 @@
 int main()
 {
     libThinkGear::ThinkGearReceiver tgReceiver;
+    ThinkGearMonitor tgMon;
     std::string portName;
     int baudRate;
     //tg.test();
@@ -22,7 +24,9 @@ int main()
     boost::asio::io_service io_service;
     boost::asio::serial_port device(io_service, portName);
     device.set_option(boost::asio::serial_port_base::baud_rate(baudRate));
-    
+
+    tgReceiver.addListener(&tgMon);
+
     while( true ) {
         unsigned char data[BUFSIZE];
         int size = device.read_some(boost::asio::buffer(data, BUFSIZE));

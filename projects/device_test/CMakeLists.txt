@@ -3,6 +3,8 @@ find_package(Boost)
 if (Boost_FOUND)
     set(DEVTEST_SOURCES
         ThinkGearReceiver.cpp
+        ThinkGearMonitor.cpp
+        ThinkGearMessages.cpp
         TGReceiverNotify.cpp
         main.cpp
         )
