@@ -14,56 +14,59 @@ void TGReceiver_init(ThinkGear* tg, void* receiver)
     tg->ops->onError=notifyError;
 }
 
-void TGReceiver_notify(void* receiver, TGRecMemFn func, ThinkGearValues* values)
+void TGReceiver_notify(void* receiver, TGListenerMemFn func, ThinkGearValues* values)
 {
     ThinkGearReceiver* tgr = reinterpret_cast<ThinkGearReceiver*>(receiver);
-    (tgr->*func)(values);
+    auto listeners = tgr->TGListeners();
+    for (auto listener : listeners) {
+        (listener->*func)(values);
+    }
 }
 
 void notifyRaw(void* receiver, ThinkGearValues* values)
 {
-    TGReceiver_notify(receiver, &ThinkGearReceiver::onRaw, values);
+    TGReceiver_notify(receiver, &ThinkGearListener::onRaw, values);
 }
 
 void notifyBattery(void* receiver, ThinkGearValues* values)
 {
-    TGReceiver_notify(receiver, &ThinkGearReceiver::onBattery, values);
+    TGReceiver_notify(receiver, &ThinkGearListener::onBattery, values);
 }
 
 void notifyPoorSignal(void* receiver, ThinkGearValues* values)
 {
-    TGReceiver_notify(receiver, &ThinkGearReceiver::onPoorSignal, values);
+    TGReceiver_notify(receiver, &ThinkGearListener::onPoorSignal, values);
 }
 
 void notifyAttention(void* receiver, ThinkGearValues* values)
 {
-    TGReceiver_notify(receiver, &ThinkGearReceiver::onAttention, values);
+    TGReceiver_notify(receiver, &ThinkGearListener::onAttention, values);
 }
 
 void notifyMeditation(void* receiver, ThinkGearValues* values)
 {
-    TGReceiver_notify(receiver, &ThinkGearReceiver::onMeditation, values);
+    TGReceiver_notify(receiver, &ThinkGearListener::onMeditation, values);
 }
 
 void notifyEeg(void* receiver, ThinkGearValues* values)
 {
-    TGReceiver_notify(receiver, &ThinkGearReceiver::onEeg, values);
+    TGReceiver_notify(receiver, &ThinkGearListener::onEeg, values);
 }
 
 void notifyConnecting(void* receiver, ThinkGearValues* values)
 {
-    TGReceiver_notify(receiver, &ThinkGearReceiver::onConnecting, values);
+    TGReceiver_notify(receiver, &ThinkGearListener::onConnecting, values);
 }
 
 void notifyReady(void* receiver, ThinkGearValues* values)
 {
-    TGReceiver_notify(receiver, &ThinkGearReceiver::onReady, values);
+    TGReceiver_notify(receiver, &ThinkGearListener::onReady, values);
 }
 
 void notifyError(void* receiver, int code)
 {
-    ThinkGearReceiver* tgr = reinterpret_cast<ThinkGearReceiver*>(receiver);
-    tgr->onError(code);
+    //ThinkGearListener* tgr = reinterpret_cast<ThinkGearListener*>(receiver);
+    //tgr->onError(code);
 }
 
 } // namespace TGReceiverNotify

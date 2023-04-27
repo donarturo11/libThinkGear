@@ -4,9 +4,9 @@
 #include "ThinkGearReceiver.h"
 namespace libThinkGear {
 
-typedef void (ThinkGearReceiver::*TGRecMemFn)(ThinkGearValues*);
+
 void TGReceiver_init(ThinkGear* tg, void* receiver);
-void TGReceiver_notify(void* receiver, TGRecMemFn func, ThinkGearValues* values);
+void TGReceiver_notify(void* receiver, TGListenerMemFn func, ThinkGearValues* values);
 
 void notifyRaw(void* receiver, ThinkGearValues* values);
 void notifyBattery(void* receiver, ThinkGearValues* values);

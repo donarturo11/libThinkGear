@@ -2,7 +2,9 @@
 #define THINKGEARRECEIVER_H
 
 #include "ThinkGear.h"
+#include "ThinkGearListener.h"
 #include <vector>
+#include <list>
 #define BUFFERSIZE 512
 namespace libThinkGear {
 class ThinkGearReceiver {
@@ -10,18 +12,14 @@ public:
     ThinkGearReceiver();
     ~ThinkGearReceiver();
     void readByte(char byte);
-    void onRaw(ThinkGearValues* values);
-    void onBattery(ThinkGearValues* values);
-    void onPoorSignal(ThinkGearValues* values);
-    void onAttention(ThinkGearValues* values);
-    void onMeditation(ThinkGearValues* values);
-    void onEeg(ThinkGearValues* values);
-    void onConnecting(ThinkGearValues* values);
-    void onReady(ThinkGearValues* values);
-    void onError(int code);
+    void addListener(ThinkGearListener* listener) { tgListeners.push_back(listener); }
+    void removeListener(ThinkGearListener* listener) { std::erase(tgListeners, listener); }
+    ThinkGearListenerList TGListeners() const { return tgListeners; }
+
 private:
     ThinkGear *tg;
     unsigned char buffer[BUFFERSIZE];
+    ThinkGearListenerList tgListeners;
 };
 } // namespace libThinkGear
 
