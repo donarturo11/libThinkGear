@@ -6,7 +6,7 @@
 
 int main()
 {
-    ThinkGearReceiver tgReceiver;
+    libThinkGear::ThinkGearReceiver tgReceiver;
     std::string portName;
     int baudRate;
     //tg.test();

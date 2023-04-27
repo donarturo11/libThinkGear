@@ -4,7 +4,7 @@
 #include "ThinkGear.h"
 #include <vector>
 #define BUFFERSIZE 512
-
+namespace libThinkGear {
 class ThinkGearReceiver {
 public:
     ThinkGearReceiver();
@@ -23,5 +23,6 @@ private:
     ThinkGear *tg;
     unsigned char buffer[BUFFERSIZE];
 };
+} // namespace libThinkGear
 
 #endif // THINKGEARRECEIVER_H

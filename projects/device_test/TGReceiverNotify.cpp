@@ -1,5 +1,5 @@
 #include "TGReceiverNotify.h"
-namespace TGReceiverNotify {
+namespace libThinkGear {
 void TGReceiver_init(ThinkGear* tg, void* receiver)
 {
     tg->receiver=receiver;

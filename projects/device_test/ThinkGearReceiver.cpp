@@ -1,12 +1,12 @@
 #include "ThinkGearReceiver.h"
 #include "TGReceiverNotify.h"
 #include <iostream>
-
+namespace libThinkGear {
 ThinkGearReceiver::ThinkGearReceiver()
 {
     std::cout << "SimpleThinkGear c-tor\n";
     tg = ThinkGear_init();
-    TGReceiverNotify::TGReceiver_init(tg, this);
+    TGReceiver_init(tg, this);
 }
 
 ThinkGearReceiver::~ThinkGearReceiver()
@@ -63,3 +63,5 @@ void ThinkGearReceiver::onError(int code)
 {
     
 }
+
+} // namespace libThinkGear

@@ -2,7 +2,7 @@
 #define TGRECEIVERNOTIFY_H
 #include "ThinkGear.h"
 #include "ThinkGearReceiver.h"
-namespace TGReceiverNotify {
+namespace libThinkGear {
 
 typedef void (ThinkGearReceiver::*TGRecMemFn)(ThinkGearValues*);
 void TGReceiver_init(ThinkGear* tg, void* receiver);
@@ -18,5 +18,5 @@ void notifyConnecting(void* receiver, ThinkGearValues* values);
 void notifyReady(void* receiver, ThinkGearValues* values);
 void notifyError(void* receiver, int code);
 
-}
+} // namespace libThinkGear
 #endif // TGRECEIVERNOTIFY_H
