@@ -1,5 +1,5 @@
 #include "ThinkGear.h"
-#include "DummyListener.h"
+#include "DummyCallbacks.h"
 #include <stdio.h>
 #ifdef __cplusplus
 extern "C" {
@@ -10,14 +10,15 @@ ThinkGear* ThinkGear_init()
     tg = (ThinkGear*) malloc(sizeof(ThinkGear));
     tg->parser = (ThinkGearStreamParser*) malloc(sizeof(ThinkGearStreamParser));
     tg->values = (ThinkGearValues*) malloc(sizeof(ThinkGearValues));
-    tg->listener = (ThinkGearListener*) malloc (sizeof(ThinkGearListener));
-    DummyListener_init(tg->listener);
-    THINKGEAR_initParser(tg->parser, PARSER_TYPE_PACKETS, tgHandleListener, tg);
+    tg->ops = (ThinkGearCallbacks*) malloc (sizeof(ThinkGearCallbacks));
+    DummyCallbacks_init(tg->ops);
+    THINKGEAR_initParser(tg->parser, PARSER_TYPE_PACKETS, tgHandleValues, tg);
     return tg;
 }
 
 void ThinkGear_delete(ThinkGear *tg)
 {
+    free(tg->ops);
     free(tg->parser);
     free(tg->values);
     free(tg); 

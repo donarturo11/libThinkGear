@@ -1,6 +1,6 @@
 #include "ThinkGear.h"
 #include <stdio.h>
-void tgHandleListener( unsigned char extendedCodeLevel,
+void tgHandleValues( unsigned char extendedCodeLevel,
                                   unsigned char code,
                                   unsigned char valueLength,
                                   const unsigned char *value,
@@ -8,7 +8,6 @@ void tgHandleListener( unsigned char extendedCodeLevel,
 {
     ThinkGear* tg = (ThinkGear*) customData;
     ThinkGearValues* values = tg->values;
-    ThinkGearListener* listener = tg->listener;
     void* receiver = tg->receiver;
     //printf("CODE: 0x%X\n", code);
     if (extendedCodeLevel == 0){
@@ -17,19 +16,19 @@ void tgHandleListener( unsigned char extendedCodeLevel,
         switch (code) {
             case PARSER_CODE_BATTERY:
                 values->battery = value[0] & 0xff;
-                listener->onBattery(receiver, values);
+                tg->ops->onBattery(receiver, values);
                 break;
             case PARSER_CODE_POOR_QUALITY:
                 values->poorSignal = value[0] & 0xff;
-                listener->onPoorSignal(receiver, values);
+                tg->ops->onPoorSignal(receiver, values);
                 break;
             case PARSER_CODE_ATTENTION:
                 values->attention = value[0] & 0xff;
-                listener->onAttention(receiver, values);
+                tg->ops->onAttention(receiver, values);
                 break;
             case PARSER_CODE_MEDITATION:
                 values->meditation = value[0] & 0xff;
-                listener->onMeditation(receiver, values);
+                tg->ops->onMeditation(receiver, values);
                 break;
             //case 0x16:
             //    tg.values.blinkStrength = value[0] & 0xff;
@@ -51,7 +50,7 @@ void tgHandleListener( unsigned char extendedCodeLevel,
                 break;
             case PARSER_CODE_RAW_SIGNAL:
                 values->raw = (value[0] << 8) | value[1];
-                listener->onRaw(receiver, values);
+                tg->ops->onRaw(receiver, values);
                 break;
             case PARSER_CODE_ASIC_EEG_POWER_INT:
                 {
@@ -74,7 +73,7 @@ void tgHandleListener( unsigned char extendedCodeLevel,
                     values->eegHighBeta = (value[pos] << 16) | (value[pos+1] << 8) | (value[pos+2]); pos += 3;
                     values->eegLowGamma = (value[pos] << 16) | (value[pos+1] << 8) | (value[pos+2]); pos += 3;
                     values->eegHighGamma = (value[pos] << 16) | (value[pos+1] << 8) | (value[pos+2]); pos += 3;
-                    listener->onEeg(receiver, values);
+                    tg->ops->onEeg(receiver, values);
                     break;
                 }
             /* Other [CODE]s */
@@ -89,10 +88,10 @@ void tgHandleListener( unsigned char extendedCodeLevel,
 }
 
 
-ThinkGearListener* ThinkGearListener_init()
+ThinkGearCallbacks* ThinkGearCallbacks_init()
 {
-    ThinkGearListener* listener;
-    listener = NULL;
-    listener = (ThinkGearListener*) malloc(sizeof(ThinkGearListener));
-    return listener;
+    ThinkGearCallbacks* ops;
+    ops = NULL;
+    ops = (ThinkGearCallbacks*) malloc(sizeof(ThinkGearCallbacks));
+    return ops;
 }

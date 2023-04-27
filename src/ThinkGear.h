@@ -25,7 +25,7 @@ typedef struct _ThinkGearValues {
     unsigned int eegHighGamma; // 5000 / 300000 . 41-49.75hz
 } ThinkGearValues;
 
-typedef struct _ThinkGearListener {
+typedef struct _ThinkGearCallbacks {
     void (*onRaw)(void* receiver, ThinkGearValues* values);
     void (*onBattery)(void* receiver, ThinkGearValues* values);
     void (*onPoorSignal)(void* receiver, ThinkGearValues* values);
@@ -35,16 +35,16 @@ typedef struct _ThinkGearListener {
     void (*onConnecting)(void* receiver, ThinkGearValues* values);
     void (*onReady)(void* receiver, ThinkGearValues* values);
     void (*onError)(void* receiver, int code);
-} ThinkGearListener;
+} ThinkGearCallbacks;
 
 typedef struct _ThinkGear {
     ThinkGearStreamParser* parser;
     ThinkGearValues* values;
-    ThinkGearListener *listener;
+    ThinkGearCallbacks *ops;
     void *receiver;
 } ThinkGear;
 
-void tgHandleListener( unsigned char extendedCodeLevel, 
+void tgHandleValues( unsigned char extendedCodeLevel, 
                                   unsigned char code, 
                                   unsigned char valueLength, 
                                   const unsigned char *value, 
@@ -55,7 +55,7 @@ void ThinkGear_delete(ThinkGear *tg);
 void ThinkGear_readByte(ThinkGear *tg, unsigned char c);
 void ThinkGear_readBytes(ThinkGear *tg, const unsigned char* c, unsigned int length);
 
-ThinkGearListener* ThinkGearListener_init();
+ThinkGearCallbacks* ThinkGearCallbacks_init();
 
 
 #ifdef __cplusplus

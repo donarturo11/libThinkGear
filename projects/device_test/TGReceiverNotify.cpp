@@ -3,15 +3,15 @@ namespace libThinkGear {
 void TGReceiver_init(ThinkGear* tg, void* receiver)
 {
     tg->receiver=receiver;
-    tg->listener->onRaw=notifyRaw;
-    tg->listener->onBattery=notifyBattery;
-    tg->listener->onPoorSignal=notifyPoorSignal;
-    tg->listener->onAttention=notifyAttention;
-    tg->listener->onMeditation=notifyMeditation;
-    tg->listener->onEeg=notifyEeg;
-    tg->listener->onConnecting=notifyConnecting;
-    tg->listener->onReady=notifyReady;
-    tg->listener->onError=notifyError;
+    tg->ops->onRaw=notifyRaw;
+    tg->ops->onBattery=notifyBattery;
+    tg->ops->onPoorSignal=notifyPoorSignal;
+    tg->ops->onAttention=notifyAttention;
+    tg->ops->onMeditation=notifyMeditation;
+    tg->ops->onEeg=notifyEeg;
+    tg->ops->onConnecting=notifyConnecting;
+    tg->ops->onReady=notifyReady;
+    tg->ops->onError=notifyError;
 }
 
 void TGReceiver_notify(void* receiver, TGRecMemFn func, ThinkGearValues* values)

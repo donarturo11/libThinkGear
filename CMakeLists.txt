@@ -10,8 +10,8 @@ include_directories(src)
 include_directories(tests)
 set (THINKGEAR_SOURCES 
     src/ThinkGear.c
-    src/DummyListener.c
-    src/ThinkGearListener.c
+    src/DummyCallbacks.c
+    src/ThinkGearHandleValues.c
     src/ThinkGearStreamParser.c    
     )
 

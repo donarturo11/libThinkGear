@@ -1,21 +1,21 @@
 #include "BasicListener.h"
 #include <stdio.h>
-void BasicListener_init(ThinkGearListener* listener)
+void BasicListener_init(ThinkGearCallbacks* ops)
 {
-    listener->onRaw=BasicListener_onRaw;
-    listener->onBattery=BasicListener_onBattery;
-    listener->onPoorSignal=BasicListener_onPoorSignal;
-    listener->onAttention=BasicListener_onAttention;
-    listener->onMeditation=BasicListener_onMeditation;
-    listener->onEeg=BasicListener_onEeg;
-    listener->onConnecting=BasicListener_onConnecting;
-    listener->onReady=BasicListener_onReady;
-    listener->onError=BasicListener_onError;
+    ops->onRaw=BasicListener_onRaw;
+    ops->onBattery=BasicListener_onBattery;
+    ops->onPoorSignal=BasicListener_onPoorSignal;
+    ops->onAttention=BasicListener_onAttention;
+    ops->onMeditation=BasicListener_onMeditation;
+    ops->onEeg=BasicListener_onEeg;
+    ops->onConnecting=BasicListener_onConnecting;
+    ops->onReady=BasicListener_onReady;
+    ops->onError=BasicListener_onError;
 }
 
-void BasicListener_delete(ThinkGearListener *listener)
+void BasicListener_delete(ThinkGearCallbacks *ops)
 {
-    free(listener);
+    free(ops);
 }
 
 void BasicListener_onRaw(void* listener, ThinkGearValues* values)

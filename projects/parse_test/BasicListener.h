@@ -2,8 +2,8 @@
 #define BASICLISTENER_H
 #include <stdlib.h>
 #include "ThinkGear.h"
-void BasicListener_init(ThinkGearListener* listener);
-void BasicListener_delete(ThinkGearListener* listener);
+void BasicListener_init(ThinkGearCallbacks* ops);
+void BasicListener_delete(ThinkGearCallbacks* ops);
 
 void BasicListener_onRaw(void* listener, ThinkGearValues* values);
 void BasicListener_onBattery(void* listener, ThinkGearValues* values);

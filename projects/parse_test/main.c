@@ -10,7 +10,7 @@ int main()
 {
     ThinkGear* tg=NULL; 
     tg = ThinkGear_init();
-    BasicListener_init(tg->listener);
+    BasicListener_init(tg->ops);
     printf("ThinkGear begin test:\n");
     ThinkGear_readBytes(tg, thinkgear_test, thinkgear_test_len);
     printf("ThinkGear end test\n");
