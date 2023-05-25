@@ -4,6 +4,7 @@
 #define BUFFERSIZE 512
 #ifdef __cplusplus
 extern "C" {
+namespace libThinkGear {
 #endif
 
 typedef struct _ThinkGearValues {
@@ -59,6 +60,7 @@ ThinkGearCallbacks* ThinkGearCallbacks_init();
 
 
 #ifdef __cplusplus
+} // namespace libThinkGear
 } // extern "C"
 #endif
 

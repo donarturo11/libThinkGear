@@ -3,6 +3,7 @@
 #include <stdio.h>
 #ifdef __cplusplus
 extern "C" {
+namespace libThinkGear {
 #endif
 ThinkGear* ThinkGear_init()
 {
@@ -36,6 +37,7 @@ void ThinkGear_readBytes(ThinkGear *tg, const unsigned char* data, unsigned int 
 }
 
 #ifdef __cplusplus
+} // namespace libThinkGear
 } // extern "C"
 #endif
 

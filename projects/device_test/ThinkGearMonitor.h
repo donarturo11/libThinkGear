@@ -2,7 +2,7 @@
 #define THINKGEARMONITOR_H
 #include "ThinkGearListener.h"
 #include "ThinkGearMessages.h"
-
+using libThinkGear::ThinkGearValues;
 class ThinkGearMonitor : public libThinkGear::ThinkGearListener
 {
 public:

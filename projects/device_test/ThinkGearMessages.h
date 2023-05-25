@@ -2,6 +2,7 @@
 #define THINKGEARMESSAGES_H
 #include "ThinkGear.h"
 #include <string>
+using libThinkGear::ThinkGearValues;
 class ThinkGearMessages
 {
 public:
