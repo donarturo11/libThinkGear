@@ -1,4 +1,5 @@
 #include "DummyCallbacks.h"
+#include <stdlib.h>
 
 void DummyCallbacks_init(ThinkGearCallbacks* ops)
 {
@@ -14,10 +15,12 @@ void DummyCallbacks_init(ThinkGearCallbacks* ops)
     ops->onReady=DummyCallbacks_onReady;
     ops->onError=DummyCallbacks_onError;
 }
+
 void DummyCallbacks_delete(ThinkGearCallbacks* ops)
 {
     free(ops);
 }
+
 void DummyCallbacks_onRaw(void* receiver, ThinkGearValues* values) {}
 void DummyCallbacks_onBattery(void* receiver, ThinkGearValues* values) {}
 void DummyCallbacks_onPoorSignal(void* receiver, ThinkGearValues* values) {}

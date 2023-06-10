@@ -1,11 +1,21 @@
 #ifndef THINKGEAR_H
 #define THINKGEAR_H
-#include "ThinkGearStreamParser.h"
-#define BUFFERSIZE 512
 #ifdef __cplusplus
 extern "C" {
 namespace libThinkGear {
 #endif
+
+typedef struct _ThinkGear ThinkGear;
+typedef struct _ThinkGearValues ThinkGearValues;
+typedef struct _ThinkGearCallbacks ThinkGearCallbacks;
+typedef struct _ThinkGearStreamParser ThinkGearStreamParser;
+
+typedef struct _ThinkGear {
+    ThinkGearStreamParser* parser;
+    ThinkGearValues* values;
+    ThinkGearCallbacks *ops;
+    void *receiver;
+} ThinkGear;
 
 typedef struct _ThinkGearValues {
     short raw;
@@ -37,13 +47,6 @@ typedef struct _ThinkGearCallbacks {
     void (*onReady)(void* receiver, ThinkGearValues* values);
     void (*onError)(void* receiver, int code);
 } ThinkGearCallbacks;
-
-typedef struct _ThinkGear {
-    ThinkGearStreamParser* parser;
-    ThinkGearValues* values;
-    ThinkGearCallbacks *ops;
-    void *receiver;
-} ThinkGear;
 
 void tgHandleValues( unsigned char extendedCodeLevel, 
                                   unsigned char code, 

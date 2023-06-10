@@ -1,5 +1,7 @@
 #include "ThinkGear.h"
+#include "ThinkGearStreamParser.h"
 #include <stdio.h>
+#include <stdlib.h>
 void tgHandleValues( unsigned char extendedCodeLevel,
                                   unsigned char code,
                                   unsigned char valueLength,

@@ -1,5 +1,6 @@
 #include "ThinkGear.h"
 #include "DummyCallbacks.h"
+#include "ThinkGearStreamParser.h"
 #include <stdio.h>
 #ifdef __cplusplus
 extern "C" {
