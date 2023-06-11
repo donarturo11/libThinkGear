@@ -15,12 +15,14 @@ set (THINKGEAR_SOURCES
     src/ThinkGearStreamParser.c    
     )
 
-file(GLOB THINKGEAR_HEADERS "src/*.h")
+set (THINKGEAR_HEADERS
+     src/ThinkGear.h
+    )
 if(BUILD_STATIC)
     message("Build static library")
     add_library (thinkgear STATIC ${THINKGEAR_SOURCES})    
     target_include_directories(thinkgear PRIVATE include PUBLIC $<INSTALL_INTERFACE:include>)
-    set_target_properties(thinkgear PROPERTIES PUBLIC_HEADER "${LIBSTK_HEADERS}")
+    set_target_properties(thinkgear PROPERTIES PUBLIC_HEADER "${THINKGEAR_HEADERS}")
     list(APPEND THINKGEAR_TARGETS thinkgear)
 endif()
 if(BUILD_SHARED)
@@ -28,7 +30,7 @@ if(BUILD_SHARED)
     add_library (thinkgear_SHARED SHARED ${THINKGEAR_SOURCES})
     set_target_properties(thinkgear_SHARED PROPERTIES OUTPUT_NAME thinkgear)
     target_include_directories(thinkgear_SHARED PRIVATE include PUBLIC $<INSTALL_INTERFACE:include>)
-    set_target_properties(thinkgear_SHARED PROPERTIES PUBLIC_HEADER "${LIBSTK_HEADERS}")
+    set_target_properties(thinkgear_SHARED PROPERTIES PUBLIC_HEADER "${THINKGEAR_HEADERS}")
     list(APPEND THINKGEAR_TARGETS thinkgear_SHARED)
 endif()
 
@@ -37,7 +39,7 @@ install(TARGETS ${THINKGEAR_TARGETS} EXPORT thinkgear-config
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib
 	RUNTIME DESTINATION bin
-	PUBLIC_HEADER DESTINATION include/ThinkGear.h)
+	PUBLIC_HEADER DESTINATION include/ThinkGear/ThinkGear.h)
 
 install(EXPORT thinkgear-config DESTINATION lib/cmake/thinkgear)
 
