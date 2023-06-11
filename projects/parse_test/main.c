@@ -14,7 +14,7 @@ int main()
     printf("ThinkGear begin test:\n");
     ThinkGear_readBytes(tg, thinkgear_test, thinkgear_test_len);
     printf("ThinkGear end test\n");
-    
+    ThinkGear_delete(tg);
     return 0;
      
 }

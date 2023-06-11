@@ -30,6 +30,7 @@ void ThinkGear_readByte(ThinkGear *tg, unsigned char c)
 {
     THINKGEAR_parseByte(tg->parser, c);
 }
+
 void ThinkGear_readBytes(ThinkGear *tg, const unsigned char* data, unsigned int length)
 {
     for (int i=0; i<length; i++) {

@@ -12,6 +12,8 @@ ThinkGearReceiver::ThinkGearReceiver()
 ThinkGearReceiver::~ThinkGearReceiver()
 {
     std::cout << "ThinkGearReceiver d-tor\n";
+    ThinkGear_delete(tg);
+
 }
 
 void ThinkGearReceiver::readByte(char byte)
