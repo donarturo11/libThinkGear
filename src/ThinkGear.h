@@ -1,5 +1,16 @@
 #ifndef THINKGEAR_H
 #define THINKGEAR_H
+
+#if defined(LIBTHINKGEAR_EXPORT)
+  #if defined _WIN32 || defined __CYGWIN__
+    #define THINKGEARAPI __declspec(dllexport)
+  #else
+    #define THINKGEARAPI __attribute__((visibility("default")))
+  #endif
+#else
+  #define THINKGEARAPI //__declspec(dllimport)
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 namespace libThinkGear {
