@@ -27,8 +27,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC thinkgear)
 
 In Makefile add to CFLAGS or CXXFLAGS ```-lthinkgear```
 
-# TODO
-Implement cpp class to receive and send ThinkGear messages (class ThinkGearReceiver will be moved to main library).
+# Notice
+This library was temporarily version. I rewritten this library from basics and shared as [libThinkGearCpp](https://github.com/donarturo11/libThinkGearCpp).
 
 # Contact
 To contact me, please use my [contact form](https://freeshell.de/~arturwro/contact.php?lang=en)
