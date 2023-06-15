@@ -1,7 +1,7 @@
 #ifndef THINKGEAR_H
 #define THINKGEAR_H
 
-#if defined(LIBTHINKGEAR_EXPORT)
+#if defined(EXPORT)
   #if defined _WIN32 || defined __CYGWIN__
     #define THINKGEARAPI __declspec(dllexport)
   #else
@@ -65,10 +65,10 @@ void tgHandleValues( unsigned char extendedCodeLevel,
                                   const unsigned char *value, 
                                   void *customData);
 
-ThinkGear* ThinkGear_init();
-void ThinkGear_delete(ThinkGear *tg);
-void ThinkGear_readByte(ThinkGear *tg, unsigned char c);
-void ThinkGear_readBytes(ThinkGear *tg, const unsigned char* c, unsigned int length);
+THINKGEARAPI ThinkGear* ThinkGear_init();
+THINKGEARAPI void ThinkGear_delete(ThinkGear *tg);
+THINKGEARAPI void ThinkGear_readByte(ThinkGear *tg, unsigned char c);
+THINKGEARAPI void ThinkGear_readBytes(ThinkGear *tg, const unsigned char* c, unsigned int length);
 
 ThinkGearCallbacks* ThinkGearCallbacks_init();
 
