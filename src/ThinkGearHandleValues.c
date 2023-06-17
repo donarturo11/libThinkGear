@@ -1,58 +1,90 @@
-#include "ThinkGear.h"
+#include "thinkgear.h"
 #include "ThinkGearStreamParser.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+uint32_t from_array(const unsigned char *value, int length) {
+    int shift = (length-1) * 8;
+    uint32_t val = 0;
+    for (int i=0; i<length; i++) {
+        val |= value[i] << shift;
+        shift -= 8;
+    }
+    return val;
+}
+
+
+tg_eegint_t eeg_values(const unsigned char *value)
+{
+    tg_eegint_t eeg_vals;
+    unsigned int *begin = &(eeg_vals.eegDelta);
+    unsigned int *end = &(eeg_vals.eegHighGamma) + 1;
+    unsigned int *it = begin;
+    while (it != end) {
+        *it = from_array(value, 3);
+        it += 3;
+    }
+    return eeg_vals;
+}
+
+unsigned char to_uchar(uint32_t val) { return val & 0xFF; }
+short to_short(uint32_t val) { return val & 0xFFFF; }
+
 void tgHandleValues( unsigned char extendedCodeLevel,
                                   unsigned char code,
                                   unsigned char valueLength,
                                   const unsigned char *value,
                                   void *customData)
 {
-    ThinkGear* tg = (ThinkGear*) customData;
-    ThinkGearValues* values = tg->values;
-    void* receiver = tg->receiver;
+    thinkgear_t *tg = (thinkgear_t*) customData;
+    tg_listener_t *listener = tg->listener;
+    tg_listener_signals *signals = &(listener->signals);
+    void *receiver = listener->receiver;
+    uint32_t val = from_array(value, valueLength);
     //printf("CODE: 0x%X\n", code);
     if (extendedCodeLevel == 0){
         //if(code != PARSER_CODE_RAW_SIGNAL) printf("%#x\n",code);//, code, code, code);
         //std::cout << extendedCodeLevel;
         switch (code) {
             case PARSER_CODE_BATTERY:
-                values->battery = value[0] & 0xff;
-                tg->ops->onBattery(receiver, values);
+                signals->onBattery(receiver, to_uchar(val));
                 break;
             case PARSER_CODE_POOR_QUALITY:
-                values->poorSignal = value[0] & 0xff;
-                tg->ops->onPoorSignal(receiver, values);
+                signals->onPoorSignal(receiver, to_uchar(val));
                 break;
             case PARSER_CODE_ATTENTION:
-                values->attention = value[0] & 0xff;
-                tg->ops->onAttention(receiver, values);
+                signals->onAttention(receiver, to_uchar(val));
                 break;
             case PARSER_CODE_MEDITATION:
-                values->meditation = value[0] & 0xff;
-                tg->ops->onMeditation(receiver, values);
+                signals->onMeditation(receiver, to_uchar(val));
                 break;
-            //case 0x16:
-            //    tg.values.blinkStrength = value[0] & 0xff;
-            //    tg.listener.onBlinkStrength(tg.values);
+            case 0x16:
+                signals->onBlinkStrength(receiver, to_uchar(val));
+                break;
             case( 0xd4 ):
-                 printf("Standby... autoconnecting\n");
+                 //printf("Standby... autoconnecting\n");
+                 tg_message_t msg;
+                 msg.code = (0xd4);
+                 msg.text("Standby... autoconnecting\0");
+                 signals->onConnecting(receiver, 0xc2);
+                 signals->onMessage(receiver, msg);
                 //if(tg.allowRawDataEvents)//ofNotifyEvent(tg.onConnecting, tg.values);
                 //tg.device->writeByte((unsigned char) 0xc2); // what is this?
                 break;
             case( 0xd0 ):
-                printf("onReady");
-                //tg.listener.onReady(tg.values);
+                signals->onReady(receiver, to_uchar(val));
                 break;
             case( 0xd1 ):
                 {
-                    printf("Headset not found\n");
-                    //tg.listener.onError(err);
+                    //printf("Headset not found\0");
+                    msg.code = (0xd1);
+                    msg.text("Headset not found\0");
+                    signals->onError(receiver, 0xd1);
                 }
                 break;
             case PARSER_CODE_RAW_SIGNAL:
-                values->raw = (value[0] << 8) | value[1];
-                tg->ops->onRaw(receiver, values);
+                /* short raw = (value[0] << 8) | value[1]; */
+                signals->onRaw(receiver, to_short(val));
                 break;
             case PARSER_CODE_ASIC_EEG_POWER_INT:
                 {
@@ -65,7 +97,7 @@ void tgHandleValues( unsigned char extendedCodeLevel,
                         v = (value[i] * 255 * 255) + (value[i + 1] * 255) + (value[i + 2]);
                         std::cout << "a: " << v;
                     }*/
-
+                    /*
                     int pos = 0;
                     values->eegDelta = (value[pos] << 16) | (value[pos+1] << 8) | (value[pos+2]); pos += 3;
                     values->eegTheta = (value[pos] << 16) | (value[pos+1] << 8) | (value[pos+2]); pos += 3;
@@ -75,7 +107,9 @@ void tgHandleValues( unsigned char extendedCodeLevel,
                     values->eegHighBeta = (value[pos] << 16) | (value[pos+1] << 8) | (value[pos+2]); pos += 3;
                     values->eegLowGamma = (value[pos] << 16) | (value[pos+1] << 8) | (value[pos+2]); pos += 3;
                     values->eegHighGamma = (value[pos] << 16) | (value[pos+1] << 8) | (value[pos+2]); pos += 3;
-                    tg->ops->onEeg(receiver, values);
+                    */ 
+                    tg_eegint_t values = eeg_values(value);
+                    signals->onEeg(receiver, values);
                     break;
                 }
             /* Other [CODE]s */
@@ -89,11 +123,3 @@ void tgHandleValues( unsigned char extendedCodeLevel,
     }
 }
 
-
-ThinkGearCallbacks* ThinkGearCallbacks_init()
-{
-    ThinkGearCallbacks* ops;
-    ops = NULL;
-    ops = (ThinkGearCallbacks*) malloc(sizeof(ThinkGearCallbacks));
-    return ops;
-}

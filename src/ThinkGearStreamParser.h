@@ -95,7 +95,7 @@ typedef struct _ThinkGearStreamParser {
  * @return 0 on success.
  */
 int
-THINKGEAR_initParser( ThinkGearStreamParser *parser, unsigned char parserType,
+tg_parser_init( ThinkGearStreamParser *parser, unsigned char parserType,
                       void (*handleDataValueFunc)(
                           unsigned char extendedCodeLevel,
                           unsigned char code, unsigned char numBytes,
@@ -147,7 +147,7 @@ exampleHandleDataValueFunc( unsigned char extendedCodeLevel,
  *
  */
 int
-THINKGEAR_parseByte( ThinkGearStreamParser *parser, unsigned char byte );
+tg_parser_parseByte( ThinkGearStreamParser *parser, unsigned char byte );
 
 
 #ifdef __cplusplus

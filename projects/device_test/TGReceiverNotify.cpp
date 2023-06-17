@@ -11,7 +11,7 @@ void TGReceiver_init(ThinkGear* tg, void* receiver)
     tg->ops->onEeg=notifyEeg;
     tg->ops->onConnecting=notifyConnecting;
     tg->ops->onReady=notifyReady;
-    tg->ops->onError=notifyError;
+    tg->ops->onMessage=notifyError;
 }
 
 void TGReceiver_notify(void* receiver, TGListenerMemFn func, ThinkGearValues* values)

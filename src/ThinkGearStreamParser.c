@@ -51,7 +51,7 @@ parseDataRow( ThinkGearStreamParser *parser, unsigned char *rowPtr );
  * See header file for interface documentation.
  */
 int
-THINKGEAR_initParser( ThinkGearStreamParser *parser,
+tg_parser_init( ThinkGearStreamParser *parser,
                       unsigned char parserType,
                       void (*handleDataValueFunc)(
                           unsigned char extendedCodeLevel,
@@ -86,7 +86,7 @@ THINKGEAR_initParser( ThinkGearStreamParser *parser,
  * See header file for interface documentation.
  */
 int
-THINKGEAR_parseByte( ThinkGearStreamParser *parser, unsigned char byte ) {
+tg_parser_parseByte( ThinkGearStreamParser *parser, unsigned char byte ) {
 
     int returnValue = 0;
 
